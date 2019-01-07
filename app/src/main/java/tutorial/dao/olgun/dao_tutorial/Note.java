@@ -38,8 +38,11 @@ public class Note {
         return priority;
     }
 
-    //If it is not in the constructor we have to it
+    //If it is not in the constructor we have to create setter for it otherwise room will not be created
     public void setId(int id) {
         this.id = id;
     }
+
+    //To not add the columns to the databae use @Ignore
+    //To change the column names use @ColumnInfo(name = 'column_name')
 }
