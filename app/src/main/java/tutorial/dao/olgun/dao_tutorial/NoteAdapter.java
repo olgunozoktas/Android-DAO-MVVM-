@@ -39,6 +39,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         notifyDataSetChanged();
     }
 
+    //Get the note according to the swipe position
+    public Note getNoteAt(int position) {
+        return notes.get(position);
+    }
+
     class NoteHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewDescription;
