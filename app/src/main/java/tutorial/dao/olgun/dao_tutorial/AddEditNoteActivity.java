@@ -10,13 +10,15 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddEditNoteActivity extends AppCompatActivity {
+    public static final String EXTRA_ID =
+            "tutorial.dao.olgun.dao_tutorial.EXTRA_ID";
     public static final String EXTRA_TITLE =
-            "com.codinginflow.architectureexample.EXTRA_TITLE";
+            "tutorial.dao.olgun.dao_tutorial.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION =
-            "com.codinginflow.architectureexample.EXTRA_DESCRIPTION";
+            "tutorial.dao.olgun.dao_tutorial.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY =
-            "com.codinginflow.architectureexample.EXTRA_PRIORITY";
+            "tutorial.dao.olgun.dao_tutorial.EXTRA_PRIORITY";
 
     private EditText editTextTitle;
     private EditText editTextDescription;
@@ -36,7 +38,17 @@ public class AddNoteActivity extends AppCompatActivity {
 
         //To put the close icon to the activity left side
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        setTitle("Add Note");
+
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Note");
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY,1));
+        } else {
+            setTitle("Add Note");
+        }
     }
 
     private void saveNote() {
@@ -56,6 +68,12 @@ public class AddNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
+
+        //Check if this is from the edit then put the id back
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if(id != -1) {
+            data.putExtra(EXTRA_ID, id);
+        }
 
         setResult(RESULT_OK, data);
         finish();
